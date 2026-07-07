@@ -60,7 +60,10 @@ namespace GamePrototype.Units
             {
                 foreach (var kvp in _equipment)
                 {
-                    kvp.Value.Repair(grindstone.ReparingValue);
+                    if (kvp.Value is Weapon)
+                    {
+                        kvp.Value.Repair(grindstone.ReparingValue);
+                    }
                 }
             }
         }
@@ -93,9 +96,11 @@ namespace GamePrototype.Units
             if (_equipment.TryGetValue(EquipSlot.Armour, out var item) && item is Armour armour && armour.Durability > 0)
             {
                 item.ReduceDurability(1);
+                base.ApplyDamage(damage / 2);
                 return;
             }
             base.ApplyDamage(damage);
+            
         }
     }
 }
